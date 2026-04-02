@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 
+const URL_BASE = import.meta.env.VITE_BACKEND_URL
+
 /* Este codigo es con API */
 const Home = () => {
 	const [tarea, setTarea] = useState({
@@ -7,13 +9,15 @@ const Home = () => {
 		is_done: false
 	});
 
+	console.log(URL_BASE)
+
 	const [todolist, setTodoList] = useState([]);
 
 	const [statusTasks, setStatusTasks] = useState("alltasks");
 
 	const crearUsuario = async (user) => {
 		try {
-			const response = await fetch(`https://playground.4geeks.com/todo/users/${user}`, {
+			const response = await fetch(`${VITE_BACKEND_URL}/users/${user}`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json"
@@ -33,7 +37,7 @@ const Home = () => {
 
 	const getTareas = async () => {
 		try {
-			const response = await fetch("https://playground.4geeks.com/todo/users/mcortez");
+			const response = await fetch(`${URL_BASE}/users/mcortez`);
 			const data = await response.json();
 			if (response.ok) {
 				setTodoList(data.todos);
@@ -64,7 +68,7 @@ const Home = () => {
 					return;
 				}
 
-				const response = await fetch("https://playground.4geeks.com/todo/todos/mcortez", {
+				const response = await fetch(`${URL_BASE}/todos/mcortez`, {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json"
@@ -88,7 +92,7 @@ const Home = () => {
 
 	const eliminarTarea = async (id) => {
 		try {
-			const response = await fetch(`https://playground.4geeks.com/todo/todos/${id}`, {
+			const response = await fetch(`${URL_BASE}/todos/${id}`, {
 				method: "DELETE"
 			});
 
@@ -109,7 +113,7 @@ const Home = () => {
 				return;
 			}
 
-			const response = await fetch(`https://playground.4geeks.com/todo/todos/${id}`, {
+			const response = await fetch(`${URL_BASE}/todos/${id}`, {
 				method: "PUT",
 				headers: {
 					"Content-Type": "application/json"
